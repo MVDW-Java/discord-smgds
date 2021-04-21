@@ -1,7 +1,7 @@
 const imports = require('./imports');
 const vars = require('./globalvars');
 var user_timeout = new Map();
-const ytdl = require("ytdl-core");
+const ytdl = require('ytdl-core-discord');
 var mysql = require('mysql-await');
 require('dotenv').config();
 
@@ -153,7 +153,7 @@ module.exports = {
 
 		return arrayOfFiles;
 	},
-	PlaySong: function play(guild, song, loop) {
+	PlaySong: async function play(guild, song, loop) {
 		
 		
 		
@@ -164,16 +164,17 @@ module.exports = {
 			serverQueue.textChannel.send("No songs in queue, thank you for using me! :)");
 			return;
 		}
-		if(song.type == 0) var play_api = ytdl(song.url);
+		if(song.type == 0) var play_api = await ytdl(song.url);
 		if(song.type == 1 || song.type == 2  || song.type == 3) var play_api = song.url;
 
 	
 		module.exports.musicTimeLeft(song);
 
-		vars.dispatcher = serverQueue.connection.play(play_api).on("finish", () => {
+		vars.dispatcher = serverQueue.connection.play(play_api, { type: 'opus' }).on("finish", () => {
 			if(imports.MusicLoop){
 				song.timeleft = song.length;
 				module.exports.PlaySong(guild, serverQueue.songs[0], 1);
+				
 				
 			} else {
 				serverQueue.songs.shift();
@@ -183,6 +184,7 @@ module.exports = {
 		
 		console.log(serverQueue.volume);
 		vars.dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
+		
 		if(loop == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``");
 		
 		

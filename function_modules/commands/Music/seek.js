@@ -8,7 +8,7 @@ module.exports = {
 
 	run: async function SimpleCommand(msg, args) {
 		msg.channel.send("Seeking..");
-		msg.channel.send("[DEBUG MODE] : args[0]=" + args[0]);
+		//msg.channel.send("[DEBUG MODE] : args[0]=" + args[0]);
 		
 		var a = args[0].split(':'); // split it at the colons
 		var seconds = 0;
