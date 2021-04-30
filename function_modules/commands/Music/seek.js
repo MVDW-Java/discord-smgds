@@ -25,8 +25,11 @@ module.exports = {
 		
 		
 		
-		const serverQueue = imports.MusicQueue.get(msg.guild.id);
-		vars.dispatcher = serverQueue.connection.play(imports.MusicQueue.get(msg.guild.id)["songs"][0].url, {seek: parseInt(seconds)})
+		
+		
+		const serverQueue = imports.MusicQueue.get(msg.guild.id)
+
+		glofunc.PlaySong(msg.guild, serverQueue.songs[0], imports.MusicLoop, parseInt(seconds))
 
 	},
 	ModuleType: "command",

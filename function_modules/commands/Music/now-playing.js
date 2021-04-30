@@ -11,57 +11,54 @@ module.exports = {
 			msg.channel.send('There is nothing playing right now.');
 			return;
 		}
-		if(args.length == 1){
-			if(args[0] == "v2"){
-				
-				String.prototype.splice = function(idx, rem, str) {
-					return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
-				};
 
 				
-				var percentage = Math.round((serverQueue.songs[0].timeleft/serverQueue.songs[0].length) * 16);
-				
-				var timebutton = "\\🔘";
-				var timebar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".splice(percentage, 0, timebutton);
-				
-				
-				
-				
-				
-				const now_playing = new Discord.MessageEmbed()
-					.setColor('#7b36f5')
-					.setTitle(':arrow_forward: Now Playing:')
-					.setDescription("__**" + serverQueue.songs[0].title + "**__\n" +
-					"*By " + serverQueue.songs[0].author + "*\n\n" + 
-					timebar + "\n" + 
-					glofunc.toHHMMSS(serverQueue.songs[0].timeleft) + " / " + glofunc.toHHMMSS(serverQueue.songs[0].length) + "\n\n")
-					.setThumbnail(serverQueue.songs[0].thumbnail)
-					.setFooter("Listen on Project Video", serverQueue.songs[0].url);
-					
-					
-					
-				msg.channel.send(now_playing);
-				
-				return;
-				
-			}
-			
-			
+		String.prototype.splice = function(idx, rem, str) {
+			return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+		};
+
+		
+		var percentage = Math.round((serverQueue.songs[0].timeleft/serverQueue.songs[0].length) * 15);
+		
+		var timebutton = "\\🔘";
+		var timebar = "▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬".splice(percentage, 0, timebutton);
+		
+		var listening_platform_name = "REPORT TO MVDW";
+		var listening_platform_icon = "";
+		switch(serverQueue.songs[0].type){
+			case 0:
+				listening_platform_name = "YouTube";
+				listening_platform_icon = "https://cdn.discordapp.com/attachments/834518897549508649/834713284627529748/youtube_play1600.png";
+				break;
+			case 1:
+				listening_platform_name = "Project Video";
+				listening_platform_icon = "https://cdn.discordapp.com/attachments/834518897549508649/834716460307709972/project_video_logo_2.png";
+				break;
+			case 2:
+				listening_platform_name = "SoundCloud";
+				listening_platform_icon = "";
+				break;
+			case 3:
+				listening_platform_name = "uploaded file";
+				listening_platform_icon = "";
+				break;
 		}
-			
+		
 		
 		
 		const now_playing = new Discord.MessageEmbed()
 			.setColor('#7b36f5')
 			.setTitle(':arrow_forward: Now Playing:')
-			.addField('Name:', serverQueue.songs[0].title, false)
-			.addField('Author:', serverQueue.songs[0].author, true)
-			.addField('Lenght:', glofunc.toHHMMSS(serverQueue.songs[0].length), true)
-			.addField('Time left:', glofunc.toHHMMSS(serverQueue.songs[0].timeleft), true)
+			.setDescription("__**" + serverQueue.songs[0].title + "**__\n" +
+			"*By " + serverQueue.songs[0].author + "*\n\n" + 
+			timebar + "\n" + 
+			glofunc.toHHMMSS(serverQueue.songs[0].timeleft) + " / " + glofunc.toHHMMSS(serverQueue.songs[0].length) + "\n\n")
 			.setThumbnail(serverQueue.songs[0].thumbnail)
+			.setFooter("Listen on " + listening_platform_name, listening_platform_icon);
+			
+			
 			
 		msg.channel.send(now_playing);
-		
 		
 	},
 	ModuleType: "command",

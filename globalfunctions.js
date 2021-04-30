@@ -1,7 +1,7 @@
 const imports = require('./imports');
 const vars = require('./globalvars');
 var user_timeout = new Map();
-const ytdl = require('ytdl-core-discord');
+const ytdl = require('ytdl-core');
 var mysql = require('mysql-await');
 require('dotenv').config();
 
@@ -153,24 +153,32 @@ module.exports = {
 
 		return arrayOfFiles;
 	},
-	PlaySong: async function play(guild, song, loop) {
+	PlaySong: async function play(guild, song, loop = 0, start = 0) {
 		
 		
 		
 		const serverQueue = imports.MusicQueue.get(guild.id);
+		
+		console.log("----");
+		console.log(serverQueue);
+		console.log("----");
+		
+		
+		
 		if (!song) {
 			serverQueue.voiceChannel.leave();
 			imports.MusicQueue.delete(guild.id);
 			serverQueue.textChannel.send("No songs in queue, thank you for using me! :)");
 			return;
 		}
-		if(song.type == 0) var play_api = await ytdl(song.url);
+		if(song.type == 0) var play_api = await ytdl(song.url, { filter: 'audioonly' });
 		if(song.type == 1 || song.type == 2  || song.type == 3) var play_api = song.url;
 
 	
 		module.exports.musicTimeLeft(song);
-
-		vars.dispatcher = serverQueue.connection.play(play_api, { type: 'opus' }).on("finish", () => {
+		vars.dispatcher = serverQueue.connection.play(play_api, { seek: start });
+		
+		vars.dispatcher.on("finish", () => {
 			if(imports.MusicLoop){
 				song.timeleft = song.length;
 				module.exports.PlaySong(guild, serverQueue.songs[0], 1);
@@ -185,7 +193,7 @@ module.exports = {
 		console.log(serverQueue.volume);
 		vars.dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
 		
-		if(loop == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``");
+		if(loop == 0 &&  start == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``");
 		
 		
 		

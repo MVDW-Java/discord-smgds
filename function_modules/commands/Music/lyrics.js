@@ -9,6 +9,7 @@ module.exports = {
 	run: async function(msg, args) {
 	
 		const searches = await Client.songs.search(args.join(" "));
+		console.log(searches);
 		const firstSong = searches[0];
 
 

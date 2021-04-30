@@ -41,9 +41,12 @@ module.exports = {
 		//Use Project Video
 		if (msg.attachments.size > 0) {
 			if(msg.attachments.size == 1){
+				var found = false;
+				
 				for (var i in allowed_filetypes){
 					var Attachment = (msg.attachments).array();
 					var url = Attachment[0].url;
+					
 					
 					if(url.includes(allowed_filetypes[i])){
 						song = {
@@ -53,8 +56,14 @@ module.exports = {
 							length: -1,
 							author: "UNKNOWN"
 						};
+						found = true;
 					}
 				}
+				if(!found){
+					msg.channel.send("Please upload a vailid file type.");
+				}
+				
+				
 			} else {
 				msg.channel.send("Please upload only 1 file at the time.");
 				return;
@@ -182,7 +191,7 @@ module.exports = {
 			try {
 				var connection = await voiceChannel.join();
 				queueContruct.connection = connection;
-				glofunc.PlaySong(msg.guild, queueContruct.songs[0], 0);
+				glofunc.PlaySong(msg.guild, queueContruct.songs[0]);
 			} catch (err) {
 				console.log(err);
 				imports.MusicQueue.delete(msg.guild.id);

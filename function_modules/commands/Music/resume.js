@@ -8,7 +8,7 @@ module.exports = {
 	run: async function(msg, args) {
 	
 		vars.dispatcher.resume();
-		module.exports.musicTimeLeft(imports.MusicQueue.get(msg.guild.id)["songs"][0]);
+		module.exports.musicTimeLeft(imports.MusicQueue.get(msg.guild.id).songs[0]);
 		msg.channel.send(":arrow_forward: Song ``" + imports.MusicQueue.get(msg.guild.id)["songs"][0]["title"] + "`` has been resumed.");
 
 	},
