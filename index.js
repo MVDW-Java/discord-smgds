@@ -1,7 +1,6 @@
 const glofunc = require('./globalfunctions');		// Global functions
 const imports = require('./imports');				// Global imports
 
-const glotransactions = require('./globaltransactionpool');		// Global Transaction pool for databasing
 
 require('dotenv').config();
 

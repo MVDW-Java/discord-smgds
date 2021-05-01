@@ -23,10 +23,6 @@ module.exports = {
 			seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
 		}
 		
-		
-		
-		
-		
 		const serverQueue = imports.MusicQueue.get(msg.guild.id)
 
 		glofunc.PlaySong(msg.guild, serverQueue.songs[0], imports.MusicLoop, parseInt(seconds))
@@ -34,8 +30,8 @@ module.exports = {
 	},
 	ModuleType: "command",
 	Permissions: 0,
-	CommandToggleWhitelist: false,
-	CommandWhitelist: [],
+	CommandToggleWhitelist: true,
+	CommandWhitelist: ["834518897549508649"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["seek"]

@@ -24,8 +24,8 @@ module.exports = {
 	},
 	ModuleType: "command",
 	Permissions: 0,
-	CommandToggleWhitelist: false,
-	CommandWhitelist: ["724287850966941846", "726509180638199888", "725751071254773800", "738654956780781568"],
+	CommandToggleWhitelist: true,
+	CommandWhitelist: ["834518897549508649"],
 	CommandRunGuild: true,
 	CommandRunDM: true,
 	CommandName: ["yoshiko"]

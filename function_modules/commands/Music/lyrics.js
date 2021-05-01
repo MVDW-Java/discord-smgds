@@ -20,8 +20,8 @@ module.exports = {
 	},
 	ModuleType: "command",
 	Permissions: 0,
-	CommandToggleWhitelist: false,
-	CommandWhitelist: [],
+	CommandToggleWhitelist: true,
+	CommandWhitelist: ["834518897549508649"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["lyrics"]
