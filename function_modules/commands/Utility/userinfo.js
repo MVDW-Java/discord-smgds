@@ -31,7 +31,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setTitle("User information")
 			.setThumbnail(user.displayAvatarURL())
-			.setColor("#ff3355")
+			.setColor("#2ecc71")
 			.addField("Tag", user.tag, true)
 			.addField("ID", user.id, true)
 			.addField("Nickname:", `${user.nickname !== null ? `${user.nickname}` : `None`}`, true)

@@ -28,7 +28,7 @@ module.exports = {
 			.addField(":newspaper: " + prefix + "Chanelog", "View the latest updates on the bot!", true)
 			.addField(":spoon: " + prefix + "spoonful", "Only a spoonful", true)
 			.addField(":hugging: " + prefix + "hug", "Will hug someone", true)
-			.setColor("#ff3355")
+			.setColor("#2ecc71")
 			.setFooter("Requested by " + msg.author.tag + ".", msg.author.avatarURL())
 			.setTimestamp();
 			

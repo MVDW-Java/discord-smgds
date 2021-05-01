@@ -47,7 +47,7 @@ module.exports = {
 		
 		
 		const now_playing = new Discord.MessageEmbed()
-			.setColor('#7b36f5')
+			.setColor('#2ecc71')
 			.setTitle(':arrow_forward: Now Playing:')
 			.setDescription("__**" + serverQueue.songs[0].title + "**__\n" +
 			"*By " + serverQueue.songs[0].author + "*\n\n" + 

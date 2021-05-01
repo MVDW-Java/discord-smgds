@@ -73,7 +73,7 @@ imports.bot.on('message', async msg => {
 						
 							//Check guild
 							if(!imports.ModuleImports.get(k).CommandRunGuild){
-								msg.channel.send("You can not use this command in guilds, please use dms.");
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use this command in guilds, please use dms.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
 								return;
 							}
 							
@@ -81,7 +81,7 @@ imports.bot.on('message', async msg => {
 							
 							//Check dms
 							if(!imports.ModuleImports.get(k).CommandRunDM){
-								msg.channel.send("You can not use this command in dms, please use guilds.");
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use this command in dms, please use guilds.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
 								return;
 							}
 
@@ -90,13 +90,13 @@ imports.bot.on('message', async msg => {
 							if(imports.ModuleImports.get(k).Permissions <= GetUserPermissions(msg)){
 								imports.ModuleImports.get(k).run(msg, args);
 							} else {
-								msg.channel.send("No permissions.");
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you don't have the permissions to run this command.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
 							}
 						} else {
 							if(imports.ModuleImports.get(k).Permissions == 0){
 								imports.ModuleImports.get(k).run(msg, args);
 							} else {
-								msg.channel.send("No permissions.");
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you don't have the permissions to run this command.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
 							}
 						}
 					} catch (e) {
