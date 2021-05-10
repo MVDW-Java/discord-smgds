@@ -2,7 +2,7 @@ const imports = require('../../../imports');
 var glofunc = require('../../../globalfunctions');
 const Discord = require('discord.js');
 const ytdl = require("discord-ytdl-core");
-const yts = require("yt-search");
+const ytsr = require("ytsr");
 const axios = require('axios');
 
 
@@ -157,21 +157,32 @@ module.exports = {
 			
 		} else {
 			
-			const { videos } = await yts(args.join(" "));
-			if (!videos.length) return message.channel.send("No songs were found!");
+			const search = await ytsr(args.join(" "), { pages: 1 });
+			console.log(search.items);
 			
-			song = {
-				type: 0,
-				title: videos[0].title,
-				url: videos[0].url,
-				length: videos[0].seconds,
-				timeleft: 0,
-				author: videos[0].author.name,
-				thumbnail: videos[0].thumbnail
-			};
 			
-			console.log(videos);
+			if (search.items.length == 0) return message.channel.send("No songs were found!");
 			
+			var found = false;
+			
+			await search.items.forEach(yt_item => {
+				if(yt_item.type == "video" && !found){
+					console.log(yt_item.title);
+					found = true;
+					
+					song = {
+						type: 0,
+						title: yt_item.title,
+						url: yt_item.url,
+						length: 0,
+						timeleft: 0,
+						author: yt_item.author.name,
+						thumbnail: yt_item.bestThumbnail
+					};
+				}
+			});
+			
+
 		}
 
 		console.log(song);
