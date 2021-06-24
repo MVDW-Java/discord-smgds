@@ -6,5 +6,11 @@ module.exports = {
 	ModuleImports: new Map(),
 	ModuleType: new Map(),
 	dispatcher: null,
-	image_channels: []
+	image_channels: [],
+	mute_role: "",
+	vote_skip_song: [],
+	message_queue: new Map(),
+	active_chat: new Map(),
+	last_minigame_send: 0,
+	minigame_active: -1
 }

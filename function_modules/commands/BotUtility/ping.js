@@ -24,12 +24,55 @@ module.exports = {
 
 		const messageSent = await msg.channel.send(pingEmbedMessage)
 			.then(async messageSent => {
+				var discord_reaction_ms = messageSent.createdTimestamp - msg.createdTimestamp;
+				var discord_reaction_msg = "Latency is average.";
+				var discord_reaction_indicator = ":green_circle:";
+				
+				var discord_ping_ms = Math.round(imports.bot.ws.ping);
+				var discord_ping_msg = "Latency is average.";
+				var discord_ping_indicator = ":green_circle:";
+				
+				
+				
+				if(discord_reaction_ms > 100){
+					discord_reaction_msg = "Latency is a bit slower than usual.";
+					discord_reaction_indicator = ":yellow_circle:";
+				} else if(discord_reaction_ms > 500){
+					discord_reaction_msg = "Latency is slow, music will stutter.";
+					discord_reaction_indicator = ":orange_circle:";
+				} else if(discord_reaction_ms > 1000){
+					discord_reaction_msg = " Latency is really slow, Discord has minor issues.";
+					discord_reaction_indicator = ":red_circle:";
+				} else if(discord_reaction_ms > 1000){
+					discord_reaction_msg = "Latency is bad, Expect an outage.";
+					discord_reaction_indicator = ":black_circle:";
+				}
+				
+				if(discord_ping_ms > 100){
+					discord_ping_msg = "Latency is a bit slower than usual.";
+					discord_ping_indicator = ":yellow_circle:";
+				} else if(discord_ping_ms > 200){
+					discord_ping_msg = "Latency is slow, music will stutter.";
+					discord_ping_indicator = ":orange_circle:";
+				} else if(discord_ping_ms > 500){
+					discord_ping_msg = "Latency is really slow, Discord has minor issues.";
+					discord_ping_indicator = ":red_circle:";
+				} else if(discord_ping_ms > 1000){
+					discord_ping_msg = "Latency is bad, Expect an outage.";
+					discord_ping_indicator = ":black_circle:";
+				}
+				
+				
+				
+				
 				const edittedEmbed = new Discord.MessageEmbed(pingEmbedMessage)
 					.setTitle(":alarm_clock: Ping")
-					.setDescription(`Ping is ${messageSent.createdTimestamp - msg.createdTimestamp}ms. API Response Time is ${Math.round(imports.bot.ws.ping)}ms`)
-					.setColor("#ff3355")
-					.setFooter("Requested by " + msg.author.tag + ".", msg.author.avatarURL())
-					.setTimestamp();
+					.setDescription("Results are in:\n\n" +
+						discord_reaction_indicator + " Discord reaction: " + discord_reaction_ms + "ms - " + discord_reaction_msg + "\n" +
+						discord_ping_indicator + " Discord API: " + discord_ping_ms + "ms - " + discord_ping_msg + "\n" +
+						":white_circle: YouTube API: ???ms - Module not finished.\n" + 
+						":white_circle: ProjectVideo ping: ???ms - Module not finished.\n")
+					.setColor("#ff3355");
 					
 					//.setTitle(`Ping is ${messageSent.createdTimestamp - msg.createdTimestamp}ms. API Response Time is ${Math.round(imports.bot.ws.ping)}ms`);
 

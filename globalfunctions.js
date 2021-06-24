@@ -186,6 +186,7 @@ module.exports = {
 				
 			} else {
 				serverQueue.songs.shift();
+				vars.vote_skip_song = [];
 				module.exports.PlaySong(guild, serverQueue.songs[0], 0);
 			}
 		}).on("error", error => console.error(error));

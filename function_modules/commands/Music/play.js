@@ -86,11 +86,11 @@ module.exports = {
 				song = {
 					type: 1,
 					title: response.data.title,
-					url: "https://enthix.net/video/uploads/" + video_id + ".mp4",
+					url: "https://www.enthix.net/video/backend/buffer_video.php?v=" + video_id,
 					length: parseInt(response.data.length),
 					timeleft: 0,
 					author: response.data.author,
-					thumbnail: "https://enthix.net/video/uploads/" + video_id + ".png"
+					thumbnail: "https://www.enthix.net/video/backend/thumbnail_proxy.php?id=" + video_id
 				};
 				
 				
@@ -167,6 +167,20 @@ module.exports = {
 			
 			await search.items.forEach(yt_item => {
 				if(yt_item.type == "video" && !found){
+					
+					var a = yt_item.duration.split(':'); // split it at the colons
+					var seconds = 0;
+					if(a.length == 0){
+						msg.channel.send("Please use a vailid time format(Example: 1:42)");
+						return;
+					} else if(a.length == 1){
+						seconds = (a[0]); 
+					} else if(a.length == 2){
+						seconds = (+a[0]) * 60 + (+a[1]); 
+					} else if(a.length == 3){
+						seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
+					}
+
 					console.log(yt_item.title);
 					found = true;
 					
@@ -174,10 +188,10 @@ module.exports = {
 						type: 0,
 						title: yt_item.title,
 						url: yt_item.url,
-						length: 0,
+						length: seconds,
 						timeleft: 0,
 						author: yt_item.author.name,
-						thumbnail: yt_item.bestThumbnail
+						thumbnail: yt_item.bestThumbnail.url
 					};
 				}
 			});

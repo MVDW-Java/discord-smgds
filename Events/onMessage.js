@@ -1,4 +1,5 @@
 const imports = require('../imports');
+const globalVars = require('../globalvars');
 const Discord = require('discord.js');
 
 
@@ -37,6 +38,51 @@ imports.bot.on('message', async msg => {
 		}
 	}
 
+	var messages_queue = globalVars.message_queue.get(msg.channel.id);
+	
+	
+	if(globalVars.message_queue.has(msg.channel.id)){
+		var author_id = msg.author.id;
+		var message = msg.content;
+
+		//Add message to the queue and move up.
+		var queue_generator = [
+			{"author": msg.author.id, "msg": msg},
+			{"author": messages_queue[0].author, "msg": messages_queue[0].msg},
+			{"author": messages_queue[1].author, "msg": messages_queue[1].msg},
+			{"author": messages_queue[2].author, "msg": messages_queue[2].msg},
+			{"author": messages_queue[3].author, "msg": messages_queue[3].msg}
+		];
+		globalVars.message_queue.set(msg.channel.id, queue_generator);
+		
+	} else {
+
+		var queue_generator = [
+			{"author": msg.author.id, "msg": msg},
+			{"author": "0", "msg": ""},
+			{"author": "0", "msg": ""},
+			{"author": "0", "msg": ""},
+			{"author": "0", "msg": ""}
+		];
+
+		globalVars.message_queue.set(msg.channel.id, queue_generator);
+		
+	}
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
 	function GetUserPermissions(msg){
 	
 	
@@ -44,7 +90,7 @@ imports.bot.on('message', async msg => {
 
 		if(usr.roles.cache.has("775382408505458769") || msg.author.id == "481895822624161795"){
 			return 9;
-		} else if(usr.roles.cache.has("777470894125219861")){
+		} else if(usr.roles.cache.has("777470894125219861") || msg.author.id == "481895822624161795"){
 			return 1;
 		}
 	

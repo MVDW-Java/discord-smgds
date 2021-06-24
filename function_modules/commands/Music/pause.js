@@ -7,8 +7,12 @@ module.exports = {
 
 	run: async function(msg, args) {
 	
-		vars.dispatcher.pause();
-		clearInterval(module.exports.musicTimeLeft);
+		const serverQueue = imports.MusicQueue.get(msg.guild.id);
+		console.log(serverQueue.connection);
+		
+		//serverQueue.connection.connection.pause(); 
+		
+		//clearInterval(module.exports.musicTimeLeft);
 		msg.channel.send(":pause_button: Song ``" + imports.MusicQueue.get(msg.guild.id)["songs"][0]["title"] + "`` has been paused.");
 
 	},

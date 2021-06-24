@@ -24,30 +24,30 @@ module.exports = {
 		//TODO: Make users let other people see there information.
 		
 		
-		const user = msg.mentions.users.first() || msg.author;
-		const games2 = user.presence.activities;
-		
-		
+		const user = msg.guild.member(msg.author.id);
+		const games2 = msg.author.presence.activities;
+		console.log(user.user);
+
 		const embed = new Discord.MessageEmbed()
 			.setTitle("User information")
-			.setThumbnail(user.displayAvatarURL())
+			.setThumbnail(user.user.displayAvatarURL({ dynamic: true, size: 1024, format: "png" }))
 			.setColor("#2ecc71")
-			.addField("Tag", user.tag, true)
+			.addField("Tag", user.user.tag, true)
 			.addField("ID", user.id, true)
 			.addField("Nickname:", `${user.nickname !== null ? `${user.nickname}` : `None`}`, true)
 			.addField("Bot", user.bot ? "Yes" : "No", true) 
-			.addField("Created At", `${user.createdAt.toUTCString().substr(0, 16)} (${checkDays(user.createdAt)})`, true)
-			//.addField("Joined At", `${user.joinedTimestamp().toUTCString().substr(0, 16)} (${checkDays(user.joinedAt)})`, true)
-			//.addField("Game Playing", games2 !== null ? games2 : `None`, true)
+			.addField("Created At", `${msg.author.createdAt.toUTCString().substr(0, 16)} (${checkDays(msg.author.createdAt)})`, true)
+			.addField("Joined At", `${new Date(user.joinedTimestamp).toUTCString().substr(0, 16)} (${checkDays(new Date(user.joinedTimestamp))})`, true) 
+			.addField("Game Playing", games2.length !== 0 ? games2 : `None`, true)
 			.addField("Status", statuss[user.presence.status], true)
-			//.addField("Roles List", user.roles.cache.map(roles => `${roles}`).join(' | '))
+			.addField("Roles List", user.roles.cache.map(roles => `${roles}`).join(' | '))
 			.setFooter("Requested by " + msg.author.tag + ".", msg.author.avatarURL())
 			.setTimestamp()
-			
+
 		msg.channel.send(embed);
 	},
 	ModuleType: "command",
-	Permissions: 9,
+	Permissions: 0,
 	CommandToggleWhitelist: true,
 	CommandWhitelist: ["834518897549508649"],
 	CommandRunGuild: true,
