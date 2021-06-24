@@ -18,5 +18,25 @@
       "answer": "freezeflamegalaxy",
       "image": "https://www.gamerguides.com/assets/guides/213/Freezeflame_Galaxy_Overview_Header.jpg",
       "question": "What is the name of this galaxy?"
+   },
+   {
+      "answer": "meltymonstergalaxy",
+      "image": "https://raw.githubusercontent.com/spellboundtriangle/discord-smgds/main/assets/images/world6.png",
+      "question": "What is the first galaxy in World 6 of Super Mario Galaxy 2?"
+   },
+   {
+      "answer": "twistytrialsgalaxy",
+      "image": "https://raw.githubusercontent.com/spellboundtriangle/discord-smgds/main/assets/images/riccotower.jpg",
+      "question": "Which galaxy is based on the Super Mario Sunshine episode *The Secret of Ricco Tower*?"
+   },
+   {
+      "answer": "boulderbowlgalaxy",
+      "image": "https://static.wikia.nocookie.net/supermariogalaxy/images/a/a6/Rock_Mushroom_SMBU.png",
+      "question": "In which galaxy is the Rock Mushroom introduced?"
+   },
+   {
+      "answer": "kingkaliente",
+      "image": "https://mario.wiki.gallery/images/thumb/4/43/Engine_Room.png/1200px-Engine_Room.png",
+      "question": "Who is fought for a grand star in the Engine Room in Super Mario Galaxy?"
    }
 ]
