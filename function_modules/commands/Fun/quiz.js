@@ -32,7 +32,7 @@ module.exports = {
 			
 			
 			
-			glofunc.con.query("INSERT INTO users (discord_id, coins) VALUES ('" + msg.author.id + "','" + coins + "') ON DUPLICATE KEY UPDATE coins=coins + " + coins + "", function (err1, result1) {
+			glofunc.con.query("INSERT INTO users (discord_id, coins, starbits, health, death_count) VALUES ('" + msg.author.id + "','" + coins + "', '0', '3', '0') ON DUPLICATE KEY UPDATE coins=coins + " + coins + "", function (err1, result1) {
 				if(err1) msg.channel.send(err1);
 				
 				msg.channel.send("<@!" + msg.author.id + "> has won!\nYou earned '" + coins + "' coins.");

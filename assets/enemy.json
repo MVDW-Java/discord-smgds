@@ -1,6 +1,6 @@
 [
 	{
-		"name": "Goomba"
+		"name": "Goomba",
 		"can_stomp": true,
 		"can_spin": true,
 		"damage_stomp": false,
