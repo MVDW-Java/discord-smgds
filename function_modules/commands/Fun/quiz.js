@@ -18,6 +18,7 @@ module.exports = {
 		
 		if(globalVars.minigame_active == -1){
 			msg.channel.send("There is no quiz active.");
+
 			//msg.channel.send("debug: '" + user_awnser + "'");
 			return;
 		}
@@ -26,8 +27,20 @@ module.exports = {
 		
 		
 		if(user_answer == quiz_file[globalVars.minigame_active].answer){
-			msg.channel.send("<@!" + msg.author.id + "> has won!");
+			
+			var coins = Math.floor(Math.random() * (10 - 5) ) + 5;
+			
+			
+			
+			glofunc.con.query("INSERT INTO users (discord_id, coins) VALUES ('" + msg.author.id + "','" + coins + "') ON DUPLICATE KEY UPDATE coins=coins + " + coins + "", function (err1, result1) {
+				if(err1) msg.channel.send(err1);
+				
+				msg.channel.send("<@!" + msg.author.id + "> has won!\nYou earned '" + coins + "' coins.");
+			});
+			
 			globalVars.minigame_active = -1;
+			
+			
 			
 		} else {
 			msg.channel.send("Wrong answer :(");

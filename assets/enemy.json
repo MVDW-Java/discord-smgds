@@ -1,0 +1,16 @@
+[
+	{
+		"name": "Goomba"
+		"can_stomp": true,
+		"can_spin": true,
+		"damage_stomp": false,
+		"damage_spin": false,
+		"reward_type_stomp": 0,
+		"reward_type_spin": 1,
+		"reward_amount_stomp": 1,
+		"reward_amount_spin": 4,
+		"image_url": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/enemy/1.png"
+	}
+
+
+]

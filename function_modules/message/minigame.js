@@ -57,7 +57,10 @@ module.exports = {
 			
 				globalVars.last_minigame_send = unix_time_now;
 			
-				var select_quiz = Math.floor((Math.random() * quiz_file.length));
+			
+			
+				var select_quiz = getRandomQuiz();
+				
 				globalVars.minigame_active = select_quiz;
 				
 				const embed = new Discord.MessageEmbed()
@@ -72,6 +75,20 @@ module.exports = {
 			
 			
 		}
+		
+		function getRandomQuiz(){
+
+			var select_quiz = -1;
+			
+			while(select_quiz == -1 || select_quiz == globalVars.minigame_last){
+				select_quiz = Math.floor((Math.random() * quiz_file.length));
+			}
+			
+			
+			return select_quiz;
+		}
+		
+		
 	
 	},
 	ModuleType: "messagelistener",

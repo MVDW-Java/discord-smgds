@@ -75,3 +75,4 @@ if(mods_loaded == mods_total) {
 }
 
 imports.bot.login(TOKEN);
+require('discord-buttons')(imports.bot)

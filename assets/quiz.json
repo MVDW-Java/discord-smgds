@@ -1,42 +1,102 @@
 [
-   {
-      "answer": "gustygardengalaxy",
-      "image": "https://i.ytimg.com/vi/-3iC6wNtj4o/maxresdefault.jpg",
-      "question": "What is the name of this galaxy?"
-   },
-   {
-      "answer": "goodegggalaxy",
-      "image": "https://i.ytimg.com/vi/sQsx8kDJpTA/maxresdefault.jpg",
-      "question": "What is the name of this galaxy?"
-   },
-   {
-      "answer": "honeyhivegalaxy",
-      "image": "https://giantbomb1.cbsistatic.com/uploads/original/1/17172/1523777-honeyhive.jpg",
-      "question": "What is the name of this galaxy?"
-   },
-   {
-      "answer": "freezeflamegalaxy",
-      "image": "https://www.gamerguides.com/assets/guides/213/Freezeflame_Galaxy_Overview_Header.jpg",
-      "question": "What is the name of this galaxy?"
-   },
-   {
-      "answer": "meltymonstergalaxy",
-      "image": "https://raw.githubusercontent.com/spellboundtriangle/discord-smgds/main/assets/images/world6.png",
-      "question": "What is the first galaxy in World 6 of Super Mario Galaxy 2?"
-   },
-   {
-      "answer": "twistytrialsgalaxy",
-      "image": "https://raw.githubusercontent.com/spellboundtriangle/discord-smgds/main/assets/images/riccotower.jpg",
-      "question": "Which galaxy is based on the Super Mario Sunshine episode *The Secret of Ricco Tower*?"
-   },
-   {
-      "answer": "boulderbowlgalaxy",
-      "image": "https://static.wikia.nocookie.net/supermariogalaxy/images/a/a6/Rock_Mushroom_SMBU.png",
-      "question": "In which galaxy is the Rock Mushroom introduced?"
-   },
-   {
-      "answer": "kingkaliente",
-      "image": "https://mario.wiki.gallery/images/thumb/4/43/Engine_Room.png/1200px-Engine_Room.png",
-      "question": "Who is fought for a grand star in the Engine Room in Super Mario Galaxy?"
-   }
+	{
+		"answer": "gustygardengalaxy",
+		"image": "https://i.ytimg.com/vi/-3iC6wNtj4o/maxresdefault.jpg",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "goodegggalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/1.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "honeyhivegalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/2.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "loopdeeloopgalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/3.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "flipswitchgalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/4.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "bowserjrsrobotreactor",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/5.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "sweetsweetgalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/6.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "spacejunkgalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/7.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "rollinggreengalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/8.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "battlerockgalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/9.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "hurryscurrygalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/10.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "bowsersstarreactor",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/galaxy/11.png",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "freezeflamegalaxy",
+		"image": "https://www.gamerguides.com/assets/guides/213/Freezeflame_Galaxy_Overview_Header.jpg",
+		"question": "What is the name of this galaxy?"
+	},
+	{
+		"answer": "meltymonstergalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/world6.png",
+		"question": "What is the first galaxy in World 6 of Super Mario Galaxy 2?"
+	},
+	{
+		"answer": "twistytrialsgalaxy",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/riccotower.jpg",
+		"question": "Which galaxy is based on the Super Mario Sunshine episode *The Secret of Ricco Tower*?"
+	},
+	{
+		"answer": "boulderbowlgalaxy",
+		"image": "https://static.wikia.nocookie.net/supermariogalaxy/images/a/a6/Rock_Mushroom_SMBU.png",
+		"question": "In which galaxy is the Rock Mushroom introduced?"
+	},
+	{
+		"answer": "queenbee",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/character/1.png",
+		"question": "What is the name of this character?"
+	},
+	{
+		"answer": "lumalee",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/character/2.png",
+		"question": "What is the name of this character?"
+	},
+	{
+		"answer": "hungrylumas",
+		"image": "https://raw.githubusercontent.com/MVDW-Java/discord-smgds/main/assets/images/minigame/character/3.png",
+		"question": "What is the name of this character?"
+	},
+	{
+		"answer": "kingkaliente",
+		"image": "https://mario.wiki.gallery/images/thumb/4/43/Engine_Room.png/1200px-Engine_Room.png",
+		"question": "Who is fought for a grand star in the Engine Room in Super Mario Galaxy?"
+	}
 ]
