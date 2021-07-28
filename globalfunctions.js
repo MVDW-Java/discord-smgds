@@ -166,7 +166,7 @@ module.exports = {
 		
 		
 		if (!song) {
-			serverQueue.voiceChannel.leave();
+			//serverQueue.voiceChannel.leave();
 			imports.MusicQueue.delete(guild.id);
 			serverQueue.textChannel.send("No songs in queue, thank you for using me! :)");
 			return;

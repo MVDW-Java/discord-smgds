@@ -4,16 +4,17 @@ const Discord = require('discord.js');
 const ytdl = require("ytdl-core");
 const fs = require("fs");
 const axios = require("axios");
-const Canvas = require("canvas");
 var ffmpeg = require('fluent-ffmpeg');
-
+const Canvas = require("canvas");
 
 
 
 module.exports = {
 
-	run: async function SimpleCommand(msg, args) {
+	run: async function run(msg, args){
 		const serverQueue = imports.MusicQueue.get(msg.guild.id);
+		
+		
 		if (!serverQueue){
 			msg.channel.send('There is nothing playing right now.');
 			return;
@@ -45,56 +46,54 @@ module.exports = {
 
 
 		if(args[0] == "v3"){
-			msg.channel.send("[DEBUG]: Trigger V3 Rendering.");
 			//Create the image canvas object
 			const canvas = Canvas.createCanvas(750, 394);
 			const ctx = canvas.getContext('2d');
 			
 			Canvas.registerFont('./assets/fonts/manrope.ttf', { family: "visitor" }); //registr font
+			Canvas.registerFont('./assets/fonts/SuperMario256.ttf', { family: "visitor" });
+			Canvas.registerFont('./assets/fonts/marioscripttext.ttf', { family: "visitor" });
 			
+		
 			var rng = Math.floor((Math.random() * 100000000000) + 999999999999);
 
-			axios.get(serverQueue.songs[0].thumbnail).then(response => {
-				Canvas.loadImage('./assets/images/test.png').then(image1 => {
+			//var thumbnail = axios.get(serverQueue.songs[0].thumbnail);
+			const image1 = await Canvas.loadImage('./assets/images/test.png');
 
-					ctx.drawImage(image1, 424, 63, 247, 138); // no workies...
-				
-					var percentage = (serverQueue.songs[0].timeleft/serverQueue.songs[0].length) * 628;
-				
-					ctx.fillStyle = "#278561";
-					ctx.fillRect(82, 238, 628, 26);
-					ctx.fillStyle = "#4cdda4";
-					ctx.fillRect(82, 239, percentage - 26, 26);
-					Canvas.loadImage('./assets/images/now-playing-timebullet.png').then(image2 => {
-						ctx.drawImage(image2, percentage + 81 - 26, 238, 13, 26);
-					
-						Canvas.loadImage('./assets/images/now-playing.png').then(image3 => {
-							ctx.drawImage(image3, 0, 0, canvas.width, canvas.height);
-							
-							
-							//Add text
-							ctx.font = 'bold 24px manrope';
-							ctx.fillStyle = "#ffffff";
-							
-							wrapText(ctx, serverQueue.songs[0].title, 78, 82, 352, 32);
-							ctx.font = 'italic 18px manrope';
-							ctx.fillText("By: ", 78, 192);
-							ctx.font = 'bold 18px manrope';
-							ctx.fillText(serverQueue.songs[0].author, 112, 192);
-							
-							ctx.font = 'normal 26px manrope';
-							ctx.fillText(glofunc.toHHMMSS(serverQueue.songs[0].timeleft) + " / " + glofunc.toHHMMSS(serverQueue.songs[0].length), 92, 304);
-							
-							
-							const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'now-playing.png');
-							msg.channel.send("", attachment);
-						});
-					});
-				});
-			});
+			ctx.drawImage(image1, 424, 63, 247, 138); // no workies...
 		
+			var percentage = (serverQueue.songs[0].timeleft/serverQueue.songs[0].length) * 628;
+		
+			ctx.fillStyle = "#278561";
+			ctx.fillRect(82, 238, 628, 26);
+			ctx.fillStyle = "#4cdda4";
+			ctx.fillRect(82, 239, percentage - 26, 26);
+			
+			const image2 = await Canvas.loadImage('./assets/images/now-playing-timebullet.png');
+					ctx.drawImage(image2, percentage + 81 - 26, 238, 13, 26);
+				
+			const image3 = await Canvas.loadImage('./assets/images/now-playing.png');
+			ctx.drawImage(image3, 0, 0, canvas.width, canvas.height);
 			
 			
+			//Add text
+			ctx.font = 'bold 26px Super Mario 256';
+			ctx.fillStyle = "#ffffff";
+			
+			wrapText(ctx, serverQueue.songs[0].title, 78, 82, 358, 32);
+			ctx.font = 'italic 20px Super Mario 256';
+			ctx.fillText("By: ", 78, 192);
+			ctx.font = 'bold 20px Super Mario 256';
+			ctx.fillText(serverQueue.songs[0].author, 112, 192);
+			
+			ctx.font = 'normal 28px mario script text';
+			ctx.fillText(glofunc.toHHMMSS(serverQueue.songs[0].timeleft) + " / " + glofunc.toHHMMSS(serverQueue.songs[0].length), 92, 304);
+			
+			
+			const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'now-playing.png');
+			msg.channel.send("", attachment);
+
+		
 			
 			
 			

@@ -13,5 +13,7 @@ module.exports = {
 	active_chat: new Map(),
 	last_minigame_send: 0,
 	minigame_active: -1,
+	minigame_type: 0,
 	minigame_last: 0,
+	death_users: []
 }

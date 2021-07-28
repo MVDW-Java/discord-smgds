@@ -25,26 +25,30 @@ module.exports = {
 			
 			var coins = 0;
 			var price = 0;
+			var death_count = 0;
 			var item_name;
 			
-			if(result1.length !== 0) coins = result1[0].coins;
+			if(result1.length !== 0){
+				coins = result1[0].coins;
+				death_count = result1[0].death_count;
+			}
 			
 
 			switch(button.id){
 				case "store-item1":
-					price = 250;
+					price = 250 + (death_count * 25);
 					item_name = "5 card pack";
 					break;
 				case "store-item2":
-					price = 450;
+					price = 450 + (death_count * 25);
 					item_name = "10 card pack";
 					break;
 				case "store-item3":
-					price = 700;
+					price = 700 + (death_count * 25);
 					item_name = "15 card pack";
 					break;
 				case "store-item4":
-					price = 850;
+					price = 850 + (death_count * 25);
 					item_name = "20 card pack";
 					break;
 			}

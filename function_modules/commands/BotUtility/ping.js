@@ -22,7 +22,7 @@ module.exports = {
 			.setFooter("Requested by " + msg.author.tag + ".", msg.author.avatarURL())
 			.setTimestamp();
 
-		const messageSent = await msg.channel.send(pingEmbedMessage)
+		const messageSent = msg.channel.send(pingEmbedMessage)
 			.then(async messageSent => {
 				var discord_reaction_ms = messageSent.createdTimestamp - msg.createdTimestamp;
 				var discord_reaction_msg = "Latency is average.";
@@ -62,25 +62,26 @@ module.exports = {
 					discord_ping_indicator = ":black_circle:";
 				}
 				
+				var description = "Results are in:\n\n" +
+					discord_reaction_indicator + " Discord reaction: " + discord_reaction_ms + "ms - " + discord_reaction_msg + "\n" +
+					discord_ping_indicator + " Discord API: " + discord_ping_ms + "ms - " + discord_ping_msg + "\n" +
+					":white_circle: YouTube API: ???ms - Module not finished.\n" + 
+					":white_circle: ProjectVideo ping: ???ms - Module not finished.\n";
+				console.log(description);
 				
+				await glofunc.ForceSleep(1000);
 				
-				
-				const edittedEmbed = new Discord.MessageEmbed(pingEmbedMessage)
-					.setTitle(":alarm_clock: Ping")
-					.setDescription("Results are in:\n\n" +
-						discord_reaction_indicator + " Discord reaction: " + discord_reaction_ms + "ms - " + discord_reaction_msg + "\n" +
-						discord_ping_indicator + " Discord API: " + discord_ping_ms + "ms - " + discord_ping_msg + "\n" +
-						":white_circle: YouTube API: ???ms - Module not finished.\n" + 
-						":white_circle: ProjectVideo ping: ???ms - Module not finished.\n")
-					.setColor("#ff3355");
-					
+				if (messageSent) {
+					msg.channel.send("if this message triggers its not empty: " + messageSent.id);
+					messageSent.edit(new Discord.MessageEmbed(pingEmbedMessage).setDescription(description));
+				}
 					//.setTitle(`Ping is ${messageSent.createdTimestamp - msg.createdTimestamp}ms. API Response Time is ${Math.round(imports.bot.ws.ping)}ms`);
 
-				await glofunc.ForceSleep(500);
-
-				if (messageSent) {
-					messageSent.edit(edittedEmbed);
-				}
+				//await glofunc.ForceSleep(1000);
+//
+				//if (messageSent) {
+				//	//messageSent.edit(edittedEmbed);
+				//}
 			})
 			.catch(console.log);
 

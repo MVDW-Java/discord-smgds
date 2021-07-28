@@ -41,8 +41,13 @@ module.exports = {
 		
 		glofunc.con.query("SELECT * FROM users WHERE discord_id='" + msg.author.id + "'", function (err1, result1) {
 			
+			var death_count = 0;
 			var coins = 0;
-			if(result1.length !== 0) coins = result1[0].coins;
+			
+			if(result1.length !== 0){
+				coins = result1[0].coins;
+				death_count = result1[0].death_count;
+			}
 			
 			//Render avatar
 			Canvas.loadImage(usr.user.displayAvatarURL({ dynamic: true, size: 1024, format: "png" })).then(avatar_img => {
@@ -67,18 +72,19 @@ module.exports = {
 					
 						var price = 0;
 						
+						
 						switch(i){
 							case 0:
-								price = 250;
+								price = 250 + (death_count * 25);
 								break;
 							case 1:
-								price = 450;
+								price = 450 + (death_count * 25);
 								break;
 							case 2:
-								price = 700;
+								price = 700 + (death_count * 25);
 								break;
 							case 3:
-								price = 850;
+								price = 850 + (death_count * 25);
 								break;
 						}
 						

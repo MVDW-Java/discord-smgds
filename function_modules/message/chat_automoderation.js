@@ -103,8 +103,7 @@ module.exports = {
 			"whore",
 			"Santa Claus and Hitler mixed be like:Ho ho holocaust",
 			"hitler is a hero",
-			"hitler is my hero",
-			""
+			"hitler is my hero"
 			
 		];
 		
@@ -206,7 +205,7 @@ module.exports = {
 			.setTimestamp();
 			
 			msg.channel.send(embed);
-	
+			messages_queue[0].msg.content = "";
 		}
 		
 
