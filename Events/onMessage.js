@@ -1,9 +1,10 @@
 const imports = require('../imports');
-const globalVars = require('../globalvars');
 const Discord = require('discord.js');
+const globalVars = require('../globalvars');
+const fs = require("fs");
 
-
-imports.bot.on('message', async msg => {
+imports.bot.on('messageCreate', async msg => {
+	
 	
 	if(msg.author.bot) return;
 	
@@ -12,6 +13,13 @@ imports.bot.on('message', async msg => {
 
 
 	var run_command = false;
+	//var serverPrefix = await glotransactions.GetServerPrefix(msg.guild.id);
+	//if (serverPrefix == false) {
+		//msg.channel.send("The server prefix for this server has not been found.... something has gone terribly wrong, please join the support server.");
+    //}
+
+	//var prefix = serverPrefix; 
+	var prefix = ">>"; // Should be later get from the database to change the prefix.
 	var CommandName;
 
 
@@ -68,25 +76,10 @@ imports.bot.on('message', async msg => {
 		globalVars.message_queue.set(msg.channel.id, queue_generator);
 		
 	}
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
 	function GetUserPermissions(msg){
 	
 	
-		var usr = msg.guild.member(msg.author.id);
+		var usr = msg.guild.members.cache.get(msg.author.id);
 
 		if(usr.roles.cache.has("775382408505458769") || msg.author.id == "481895822624161795"){
 			return 9;
@@ -109,7 +102,7 @@ imports.bot.on('message', async msg => {
 						if(imports.ModuleImports.get(k).CommandToggleWhitelist){
 							if(!imports.ModuleImports.get(k).CommandWhitelist.includes(msg.channel.id)){
 								if(msg.guild){
-									msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use that command in this channel.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
+									msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use that command in this channel.*\n(This message will be deleted in 10 seconds.)").then(m => setTimeout(async () => await m.delete(), 10000));
 									return;
 								}
 							}
@@ -119,7 +112,7 @@ imports.bot.on('message', async msg => {
 						
 							//Check guild
 							if(!imports.ModuleImports.get(k).CommandRunGuild){
-								msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use this command in guilds, please use dms.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use this command in guilds, please use dms.*\n(This message will be deleted in 10 seconds.)").then(m => setTimeout(async () => await m.delete(), 10000));
 								return;
 							}
 							
@@ -127,7 +120,7 @@ imports.bot.on('message', async msg => {
 							
 							//Check dms
 							if(!imports.ModuleImports.get(k).CommandRunDM){
-								msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use this command in dms, please use guilds.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you can't use this command in dms, please use guilds.*\n(This message will be deleted in 10 seconds.)").then(m => setTimeout(async () => await m.delete(), 10000));
 								return;
 							}
 
@@ -136,18 +129,18 @@ imports.bot.on('message', async msg => {
 							if(imports.ModuleImports.get(k).Permissions <= GetUserPermissions(msg)){
 								imports.ModuleImports.get(k).run(msg, args);
 							} else {
-								msg.channel.send(":no_entry_sign: **Sorry,** *But you don't have the permissions to run this command.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you don't have the permissions to run this command.*\n(This message will be deleted in 10 seconds.)").then(m => setTimeout(async () => await m.delete(), 10000));
 							}
 						} else {
 							if(imports.ModuleImports.get(k).Permissions == 0){
 								imports.ModuleImports.get(k).run(msg, args);
 							} else {
-								msg.channel.send(":no_entry_sign: **Sorry,** *But you don't have the permissions to run this command.*\n(This message will be deleted in 10 seconds.)").then(m => m.delete({"timeout": 10000}));
+								msg.channel.send(":no_entry_sign: **Sorry,** *But you don't have the permissions to run this command.*\n(This message will be deleted in 10 seconds.)").then(m => setTimeout(async () => await m.delete(), 10000));
 							}
 						}
 					} catch (e) {
 						console.log(e);
-						var mvdw_fix_this_you_lazy_cuck = msg.guild.member("481895822624161795");
+						var mvdw_fix_this_you_lazy_cuck = msg.guild.members.cache.get("481895822624161795");
 						mvdw_fix_this_you_lazy_cuck.send("Yo!! You maybe fucked up somewhere..\n\n```" + e + "```\nOk thanks.");
 						msg.channel.send("I'm terribly sorry but an error occurred during processing of the command. The developers have been informed.");
 					}
@@ -156,9 +149,9 @@ imports.bot.on('message', async msg => {
 		}
 	}
 
-	/* -------------
+	/* ----------
 	Message Listener
-	------------- */
+	---------- */
 	
 	for (let [k, v] of imports.ModuleImports.entries()) {
 		if(imports.ModuleType.get(k) == "messagelistener"){

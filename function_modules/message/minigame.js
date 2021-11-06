@@ -9,7 +9,7 @@ module.exports = {
 
 	run: function run(msg) {
 		
-		var usr = msg.guild.member(msg.author.id); //Get guild user from message user(Why is this a thing)
+		var usr = msg.guild.members.cache.get(msg.author.id); //Get guild user from message user(Why is this a thing)
 		
 		//quick dirty patch(I am tiered man)
 		if(msg.channel.id == "775377505472348173" || msg.channel.id == "785812534065496086" || msg.channel.id == "834518897549508649") return;

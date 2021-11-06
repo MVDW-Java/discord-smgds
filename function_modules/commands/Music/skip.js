@@ -1,22 +1,19 @@
-const imports = require('../../../imports');
-var glofunc = require('../../../globalfunctions');
-const Discord = require('discord.js');
-const ytdl = require("ytdl-core");
-const vars = require('../../../globalvars');
+const globalVars = require('../../../globalvars');
+const glofunc = require('../../../globalfunctions');
+
 
 module.exports = {
 
 	run: async function SimpleCommand(msg, args) {
 		
-		
-		const serverQueue = imports.MusicQueue.get(msg.guild.id);
+		const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
 		
 		
 		if (!msg.member.voice.channel){
 			msg.channel.send(':no_entry_sign: You have to be in a voice channel to stop the music!');
 			return;
 		}
-		if (!serverQueue){
+		if (serverQueue["songs"].length == 0){
 			msg.channel.send(':no_entry_sign: There is no song that I could skip!');
 			return;
 		}
@@ -25,27 +22,27 @@ module.exports = {
 		
 		
 		
-		if(vars.vote_skip_song.includes(msg.author.id)){
-			msg.channel.send(":no_entry_sign: You already voted. ``" + vars.vote_skip_song.length + "/" + member_size_required  + "``");
+		if(globalVars.vote_skip_song.includes(msg.author.id)){
+			msg.channel.send(":no_entry_sign: You already voted. ``" + globalVars.vote_skip_song.length + "/" + member_size_required  + "``");
 			return;
 		}
-		vars.vote_skip_song.push(msg.author.id);
+		globalVars.vote_skip_song.push(msg.author.id);
 		
 		
 		
 		
 		
-		if(vars.vote_skip_song.length < member_size_required){
-			msg.channel.send(":fast_forward: " + vars.vote_skip_song.length + "/" + member_size_required + " votes to skip.");
+		if(globalVars.vote_skip_song.length < member_size_required){
+			msg.channel.send(":fast_forward: " + globalVars.vote_skip_song.length + "/" + member_size_required + " votes to skip.");
 		} else {
-			if(imports.MusicLoop){
-				imports.MusicLoop = false;
+			if(globalVars.MusicLoop){
+				globalVars.MusicLoop = false;
 				msg.channel.send(":repeat_one: Loop removed.");
 			}
 			
 			
 			msg.channel.send(":track_next: Skipping song...");
-			vars.dispatcher.end();
+			globalVars.audioPlayer.stop();
 		}
 		
 
@@ -54,7 +51,7 @@ module.exports = {
 	ModuleType: "command",
 	Permissions: 0,
 	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649"],
+	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["skip", "s"]

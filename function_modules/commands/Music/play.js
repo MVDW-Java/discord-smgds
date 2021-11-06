@@ -1,16 +1,17 @@
 const imports = require('../../../imports');
+const globalVars = require('../../../globalvars');
 var glofunc = require('../../../globalfunctions');
 const Discord = require('discord.js');
 const ytdl = require("discord-ytdl-core");
 const ytsr = require("ytsr");
 const axios = require('axios');
-
+const { createAudioPlayer, createAudioResource , StreamType, demuxProbe, joinVoiceChannel, NoSubscriberBehavior, AudioPlayerStatus, VoiceConnectionStatus, getVoiceConnection } = require('@discordjs/voice')
 
 module.exports = {
 
 	run: async function SimpleCommand(msg, args) {
 		var song;
-		const allowed_filetypes = ["flac", "wav", "mp3", "mp4", "webm", "avi"];
+		const allowed_filetypes = ["flac", "wav", "mp3", "mp4", "webm", "avi", "ogg"];
 		const voiceChannel = msg.member.voice.channel;
 		
 		if (!voiceChannel) {
@@ -44,23 +45,30 @@ module.exports = {
 				var found = false;
 				
 				for (var i in allowed_filetypes){
-					var Attachment = (msg.attachments).array();
-					var url = Attachment[0].url;
-					
-					
-					if(url.includes(allowed_filetypes[i])){
-						song = {
-							type: 3,
-							title: "UNKNOWN(From file)",
-							url: url,
-							length: -1,
-							author: "UNKNOWN"
-						};
-						found = true;
-					}
+				    msg.attachments.forEach(attachment => {
+					    var url = attachment.url;
+					    
+					    var url_split = url.split("/");
+					    var filename_from_split = url_split.length - 1;
+					    var filename = url_split[filename_from_split];
+					    
+					    
+					    
+					    if(url.includes(allowed_filetypes[i])){
+						    song = {
+							    type: 3,
+							    title: filename,
+							    url: url,
+							    length: -1,
+							    author: "From file/Unknown"
+						    };
+						    found = true;
+					    }
+					});
 				}
 				if(!found){
 					msg.channel.send("Please upload a vailid file type.");
+					return;
 				}
 				
 				
@@ -71,6 +79,13 @@ module.exports = {
 			}
 			
 		
+		} else if(args.length == 0){
+			msg.channel.send("Usage: ``!p <song name/url>``");
+			return;
+
+
+
+
 		} else if(args[0].toString().includes("enthix")){
 			
 			var video_id = args[0].toString().split('v=')[1];
@@ -143,7 +158,7 @@ module.exports = {
 			
 			
 			const songInfo = await ytdl.getInfo(url);
-			console.log(songInfo.videoDetails.thumbnails);
+			//console.log(songInfo.videoDetails.thumbnails);
 
 			song = {
 				type: 0,
@@ -158,7 +173,7 @@ module.exports = {
 		} else {
 			
 			const search = await ytsr(args.join(" "), { pages: 1 });
-			console.log(search.items);
+			//console.log(search.items);
 			
 			
 			if (search.items.length == 0) return message.channel.send("No songs were found!");
@@ -181,7 +196,7 @@ module.exports = {
 						seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]); 
 					}
 
-					console.log(yt_item.title);
+					//console.log(yt_item.title);
 					found = true;
 					
 					song = {
@@ -199,8 +214,8 @@ module.exports = {
 
 		}
 
-		console.log(song);
-		if (!imports.MusicQueue.get(msg.guild.id)) {
+		//console.log(song);
+		if (!globalVars.MusicQueue.get(msg.guild.id)) {
 			const queueContruct = {
 				textChannel: msg.channel,
 				voiceChannel: voiceChannel,
@@ -210,22 +225,32 @@ module.exports = {
 				playing: true,
 			};
 
-			imports.MusicQueue.set(msg.guild.id, queueContruct);
+			globalVars.MusicQueue.set(msg.guild.id, queueContruct);
 			queueContruct.songs.push(song);
 
 			try {
-				var connection = await voiceChannel.join();
+				const connection = joinVoiceChannel({
+					channelId : msg.member.voice.channel.id,
+					guildId : msg.guild.id,
+					adapterCreator: msg.guild.voiceAdapterCreator
+				});
+				//var connection = await voiceChannel.join();
 				queueContruct.connection = connection;
 				glofunc.PlaySong(msg.guild, queueContruct.songs[0]);
 			} catch (err) {
 				console.log(err);
-				imports.MusicQueue.delete(msg.guild.id);
+				globalVars.MusicQueue.delete(msg.guild.id);
 				msg.channel.send(err);
 			}
 		} else {
-			const serverQueue = imports.MusicQueue.get(msg.guild.id);
-			serverQueue.songs.push(song);
-			msg.channel.send(":1234: The song ``" + song.title + "`` has been added to the queue.");
+			const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
+			if(serverQueue.songs.length == 0){
+				serverQueue.songs.push(song);
+				glofunc.PlaySong(msg.guild, serverQueue.songs[0]);
+			} else {
+				serverQueue.songs.push(song);
+				msg.channel.send(":1234: The song ``" + song.title + "`` has been added to the queue.");
+			}
 		}
 		
 		
@@ -253,7 +278,7 @@ module.exports = {
 	ModuleType: "command",
 	Permissions: 0,
 	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649"],
+	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["p", "play"]

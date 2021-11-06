@@ -1,4 +1,4 @@
-const imports = require('../../../imports');
+const globalVars = require('../../../globalvars');
 var glofunc = require('../../../globalfunctions');
 const Discord = require('discord.js');
 const ytdl = require("ytdl-core");
@@ -12,10 +12,10 @@ const Canvas = require("canvas");
 module.exports = {
 
 	run: async function run(msg, args){
-		const serverQueue = imports.MusicQueue.get(msg.guild.id);
+		const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
 		
-		
-		if (!serverQueue){
+
+		if (!serverQueue || serverQueue.songs.length == 0){
 			msg.channel.send('There is nothing playing right now.');
 			return;
 		}
@@ -91,7 +91,7 @@ module.exports = {
 			
 			
 			const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'now-playing.png');
-			msg.channel.send("", attachment);
+			msg.channel.send({ files: [attachment] });
 
 		
 			
@@ -157,13 +157,13 @@ module.exports = {
 			.setFooter("Listen on " + listening_platform_name, listening_platform_icon);
 
 			
-		msg.channel.send(now_playing);
+		msg.channel.send({ embeds: [now_playing] });
 		
 	},
 	ModuleType: "command",
 	Permissions: 0,
-	CommandToggleWhitelist: false,
-	CommandWhitelist: ["834518897549508649"],
+	CommandToggleWhitelist: true,
+	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["nowplaying", "now-playing", "np"]

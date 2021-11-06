@@ -1,25 +1,20 @@
-const imports = require('../../../imports');
-const glofunc = require('../../../globalfunctions');
-const vars = require('../../../globalvars');
-const ytdl = require("ytdl-core");
+const globalVars = require('../../../globalvars');
 
 module.exports = {
 
 	run: async function(msg, args) {
-	
-		const serverQueue = imports.MusicQueue.get(msg.guild.id);
-		console.log(serverQueue.connection);
 		
-		//serverQueue.connection.connection.pause(); 
-		
-		//clearInterval(module.exports.musicTimeLeft);
-		msg.channel.send(":pause_button: Song ``" + imports.MusicQueue.get(msg.guild.id)["songs"][0]["title"] + "`` has been paused.");
+		const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
 
+
+		msg.channel.send(":pause_button: Song ``" + serverQueue["songs"][0]["title"] + "`` has been paused.");
+		
+		globalVars.audioPlayer.pause();
 	},
 	ModuleType: "command",
 	Permissions: 0,
 	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649"],
+	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["pause"]

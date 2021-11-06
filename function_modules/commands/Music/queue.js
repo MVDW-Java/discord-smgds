@@ -1,17 +1,15 @@
-const imports = require('../../../imports');
-var glofunc = require('../../../globalfunctions');
+const globalVars = require('../../../globalvars');
 const Discord = require('discord.js');
-const ytdl = require("ytdl-core");
 
 module.exports = {
 
 	run: async function SimpleCommand(msg, args) {
-		const serverQueue = imports.MusicQueue.get(msg.guild.id);
-		if (!serverQueue){
+		const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
+		if (!serverQueue || serverQueue.songs.length == 0){
 			msg.channel.send('There is no queue.');
 			return;
 		}
-		
+			
 		var queue_description = "";
 		var queue_counter = 1;
 		
@@ -25,14 +23,14 @@ module.exports = {
 			.setDescription(queue_description);
 
 			
-		msg.channel.send(queue);
+		msg.channel.send({ embeds: [queue] });
 		
 		
 	},
 	ModuleType: "command",
 	Permissions: 0,
 	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649"],
+	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["queue", "q"]

@@ -9,7 +9,8 @@ const axios = require('axios');
 module.exports = {
 
 	run: async function(msg, args) {
-		
+		msg.channel.send(":warning: Due the recode this function is not ready yet.");
+		return;
 		if(args.length == 0){ 
 			
 			const playlist_help = new Discord.MessageEmbed()
@@ -318,7 +319,7 @@ module.exports = {
 	ModuleType: "command",
 	Permissions: 0,
 	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649"],
+	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["playlist"]

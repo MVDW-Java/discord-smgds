@@ -30,7 +30,7 @@ module.exports = {
 	},
 	ModuleType: "command",
 	Permissions: 0,
-	CommandToggleWhitelist: true,
+	CommandToggleWhitelist: false,
 	CommandWhitelist: ["834518897549508649"],
 	CommandRunGuild: true,
 	CommandRunDM: true,

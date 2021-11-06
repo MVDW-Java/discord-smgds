@@ -1,14 +1,12 @@
-const imports = require('../../../imports');
 const glofunc = require('../../../globalfunctions');
-const vars = require('../../../globalvars');
-const Discord = require('discord.js');
-
+const globalVars = require('../../../globalvars');
 
 module.exports = {
 
 	run: async function SimpleCommand(msg, args) {
 		
-		const serverQueue = imports.MusicQueue.get(msg.guild.id);
+		
+		const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
 		
 		if (!serverQueue){
 			msg.channel.send(':no_entry_sign: There is nothing playing right now.');
@@ -56,13 +54,13 @@ module.exports = {
 
 		msg.channel.send(":fast_forward: Seeking to timestamp ``" + glofunc.toHHMMSS(parseInt(seconds)) + "``.");
 
-		glofunc.PlaySong(msg.guild, serverQueue.songs[0], imports.MusicLoop, parseInt(seconds))
+		glofunc.PlaySong(msg.guild, serverQueue.songs[0], globalVars.MusicLoop, parseInt(seconds))
 
 	},
 	ModuleType: "command",
 	Permissions: 0,
 	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649"],
+	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["seek", "forward"]

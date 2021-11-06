@@ -47,7 +47,7 @@ module.exports = {
 	ModuleType: "command",
 	Permissions: 0,
 	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649", "726509180638199888", "725751071254773800"],
+	CommandWhitelist: ["834518897549508649", "726509180638199888", "725751071254773800", "885543263111639061", "815586562083520556", "819950156928778260"],
 	CommandRunGuild: true,
 	CommandRunDM: true,
 	CommandName: ["coinflip", "flipcoin", "coinf"]

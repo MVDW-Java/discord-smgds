@@ -7,7 +7,7 @@ module.exports = {
 
 	run: function run(msg) {
 		
-		var usr = msg.guild.member(msg.author.id); //Get guild user from message user(Why is this a thing)
+		var usr = msg.guild.members.cache.get(msg.author.id); //Get guild user from message user(Why is this a thing)
 		var messages_queue = globalVars.message_queue.get(msg.channel.id);
 	
 		//Dev role id || Mod role id
