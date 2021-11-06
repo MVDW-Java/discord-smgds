@@ -22,6 +22,7 @@ module.exports = {
 			.addField("Avatar/Ping command:",":black_circle: @Yoshiko#7777", true)
 			.addField("Coinflip/Dice/Spoonful command:",":black_circle: @MVDW#0001", true)
 			.addField("Help/Credits command:",":black_circle: @MVDW#0001", true)
+			.addField("Music command:",":black_circle: @MVDW#0001\n:black_circle: @riidefi#2741", true)
 			.setColor("#2ecc71")
 			.setFooter("Requested by " + msg.author.tag + ".", msg.author.avatarURL())
 			.setTimestamp();
