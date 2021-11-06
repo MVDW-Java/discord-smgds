@@ -18,8 +18,14 @@ module.exports = {
             }
         }
 
-        shuffleArray(serverQueue.songs);
-			
+        // 0    -> nothing to shuffle
+        // 1..2 -> shuffling does nothing
+        if (serverQueue.songs.length > 2) {
+            var remaining = serverQueue.songs.splice(1);
+
+            shuffleArray(remaining);
+            serverQueue.songs = serverQueue.songs.splice(0, 1).concat(remaining);
+        }
 		var queue_description = "";
 		var queue_counter = 1;
 		
