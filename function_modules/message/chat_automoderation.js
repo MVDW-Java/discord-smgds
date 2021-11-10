@@ -1,5 +1,5 @@
 //requirements from other files.
-const imports = require('../../imports');
+/*const imports = require('../../imports');
 const globalVars = require('../../globalvars');
 const Discord = require('discord.js');
 
@@ -192,7 +192,7 @@ module.exports = {
 			
 			
 			usr.roles.remove(msg.guild.roles.cache.get("845015697942773824")).catch(console.error); //anime role
-			usr.roles.remove(msg.guild.roles.cache.get("845031040938672162")).catch(console.error); //political role*/
+			usr.roles.remove(msg.guild.roles.cache.get("845031040938672162")).catch(console.error); //political role */ /*
 
 			
 			var embed = new Discord.MessageEmbed()

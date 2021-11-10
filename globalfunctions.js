@@ -1,8 +1,10 @@
 const imports = require('./imports');
+const globalVars = require('./globalvars');
 const vars = require('./globalvars');
 var user_timeout = new Map();
-const ytdl = require('ytdl-core');
+const ytdl = require('play-dl');
 var mysql = require('mysql-await');
+const { createAudioPlayer, createAudioResource , StreamType, demuxProbe, joinVoiceChannel, NoSubscriberBehavior, AudioPlayerStatus, VoiceConnectionStatus, getVoiceConnection } = require('@discordjs/voice')
 require('dotenv').config();
 
 module.exports = {
@@ -155,31 +157,85 @@ module.exports = {
 	},
 	PlaySong: async function play(guild, song, loop = 0, start = 0) {
 		
+		const serverQueue = globalVars.MusicQueue.get(guild.id);
 		
-		
-		const serverQueue = imports.MusicQueue.get(guild.id);
-		
-		console.log("----");
-		console.log(serverQueue);
-		console.log("----");
-		
-		
-		
-		if (!song) {
+
+		if (!song || song === null) {
 			//serverQueue.voiceChannel.leave();
-			imports.MusicQueue.delete(guild.id);
-			serverQueue.textChannel.send("No songs in queue, thank you for using me! :)");
+			//imports.MusicQueue.delete(guild.id);
+			serverQueue.textChannel.send("No songs in queue, Waiting for a song.");
 			return;
 		}
-		if(song.type == 0) var play_api = await ytdl(song.url, { filter: 'audioonly' });
-		if(song.type == 1 || song.type == 2  || song.type == 3) var play_api = song.url;
-
-	
-		module.exports.musicTimeLeft(song);
-		vars.dispatcher = serverQueue.connection.play(play_api, { seek: start });
 		
-		vars.dispatcher.on("finish", () => {
-			if(imports.MusicLoop){
+		
+		/*var stream = await ytdl.stream(song.url);
+		
+		vars.audioResource = createAudioResource(stream.stream, {
+				inlineVolume: true
+		});*/
+		
+		
+		if(song.type == 0){
+			
+			var stream = await ytdl.stream(song.url);
+			
+			vars.audioResource = createAudioResource(stream.stream, {
+				inlineVolume: true
+			});
+			
+		} else if(song.type == 1 || song.type == 2  || song.type == 3){
+			
+			vars.audioResource = createAudioResource(song.url, {
+				inlineVolume: true
+			});
+
+		}
+		
+		
+		vars.audioPlayer = createAudioPlayer({
+			behaviors: {
+				noSubscriber: NoSubscriberBehavior.Play
+			}
+		});
+		
+		vars.audioResource.volume.setVolume(serverQueue["volume"] / 100);
+		
+		vars.audioPlayer.play(vars.audioResource, { seek: start });
+		serverQueue.connection.subscribe(vars.audioPlayer);
+
+
+		
+
+
+
+
+
+		//  --------- Events
+		vars.audioPlayer.on(AudioPlayerStatus.Playing, () => {
+			if(loop == 0 &&  start == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``\nNote: Because we are buffering the stream now for performance it may stutter at the start.");
+			song.timeleft = song.length;
+			
+		});
+		
+		vars.audioPlayer.on(AudioPlayerStatus.Idle, () => {
+			next_song();
+		});
+
+
+		vars.audioPlayer.on('error', error => {
+			console.error(error);
+		});
+		
+		// ----------------
+		
+		
+		
+		
+		
+		
+		
+		function next_song(){
+			if(globalVars.MusicLoop){
 				song.timeleft = song.length;
 				module.exports.PlaySong(guild, serverQueue.songs[0], 1);
 				
@@ -188,15 +244,46 @@ module.exports = {
 				serverQueue.songs.shift();
 				vars.vote_skip_song = [];
 				module.exports.PlaySong(guild, serverQueue.songs[0], 0);
+				//vars.audioPlayer.destroy();
 			}
-		}).on("error", error => console.error(error));
+			
+		}
 		
-		console.log(serverQueue.volume);
+		/*
+		console.log(song.url);
+		
+		if(song.type == 0) vars.dispatcher = serverQueue.connection.play(await ytdl.stream(song.url).stream, { seek: start });
+		if(song.type == 1 || song.type == 2  || song.type == 3) vars.dispatcher = serverQueue.connection.play(song.url, { seek: start });
+
+	
+		module.exports.musicTimeLeft(song);
+		
+		
+		
+		//vars.dispatcher = serverQueue.connection.play(play_api, { seek: start }); //, quality: 'highestaudio', highWaterMark: 1 << 25
+		
+		
+		//serverQueue.connection.subscribe(serverQueue.player);
+		
+		vars.dispatcher.on("finish", () => {
+			serverQueue.textChannel.send("SONG FINISHED.");
+			next_song();
+		});
+		
+		
+		vars.dispatcher.on("end", () => {
+			serverQueue.textChannel.send("SONG HARD END.");
+			next_song();
+		});
+		
+		vars.dispatcher.on("error", error => serverQueue.textChannel.send("An error accured, please inform MVDW: \n```" + error + "```"));
+		
+		//console.log(serverQueue.volume);
 		vars.dispatcher.setVolumeLogarithmic(serverQueue.volume / 100);
 		
-		if(loop == 0 &&  start == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``");
+		if(loop == 0 &&  start == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``\nNote: Because we are buffering the stream now for performance it may stutter at the start.");
 		
-		
+		*/
 		
 		
 	}, 

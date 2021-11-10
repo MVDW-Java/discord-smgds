@@ -25,12 +25,20 @@ module.exports = {
 		
 		msg.channel.send(":track_next: Skipping song...");
 		globalVars.audioPlayer.stop();
+		
+		if(args[0] == "fix-broken"){
+		    msg.channel.send("[FIXME] Fixing broken player...");
+		    const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
+		    serverQueue.songs.shift();
+		    glofunc.PlaySong(msg.guild, serverQueue.songs[0], 0);
+		
+		}
 
 	},
 	ModuleType: "command",
 	Permissions: 1,
-	CommandToggleWhitelist: true,
-	CommandWhitelist: ["834518897549508649", "885543263111639061", "815586562083520556", "819950156928778260", "605567744720633886"],
+	CommandToggleWhitelist: false,
+	CommandWhitelist: ["834518897549508649"],
 	CommandRunGuild: true,
 	CommandRunDM: false,
 	CommandName: ["forceskip", "fs"]

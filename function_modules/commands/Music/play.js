@@ -10,7 +10,7 @@ const { createAudioPlayer, createAudioResource , StreamType, demuxProbe, joinVoi
 module.exports = {
 
 	run: async function SimpleCommand(msg, args) {
-		var song;
+		var song = [];
 		const allowed_filetypes = ["flac", "wav", "mp3", "mp4", "webm", "avi", "ogg"];
 		const voiceChannel = msg.member.voice.channel;
 		
@@ -41,42 +41,43 @@ module.exports = {
 		
 		//Use Project Video
 		if (msg.attachments.size > 0) {
-			if(msg.attachments.size == 1){
-				var found = false;
+			var found = false;
+			
+			for (var i in allowed_filetypes){
+			    msg.attachments.forEach(attachment => {
+				    var url = attachment.url;
+				    
+				    var url_split = url.split("/");
+				    var filename_from_split = url_split.length - 1;
+				    var filename = url_split[filename_from_split];
+				    
+				    
+				    
+				    if(url.includes(allowed_filetypes[i])){
+					    song.push({
+						    type: 3,
+						    title: filename,
+						    url: url,
+						    length: -1,
+						    author: "From file/Unknown"
+					    });
+					    found = true;
+				    }
+				    
+				    if(!found){
+				        msg.channel.send("Please upload a vailid file type.");
+				        return;
+			        }
+				});
 				
-				for (var i in allowed_filetypes){
-				    msg.attachments.forEach(attachment => {
-					    var url = attachment.url;
-					    
-					    var url_split = url.split("/");
-					    var filename_from_split = url_split.length - 1;
-					    var filename = url_split[filename_from_split];
-					    
-					    
-					    
-					    if(url.includes(allowed_filetypes[i])){
-						    song = {
-							    type: 3,
-							    title: filename,
-							    url: url,
-							    length: -1,
-							    author: "From file/Unknown"
-						    };
-						    found = true;
-					    }
-					});
-				}
-				if(!found){
-					msg.channel.send("Please upload a vailid file type.");
-					return;
-				}
 				
 				
-			} else {
-				msg.channel.send("Please upload only 1 file at the time.");
-				return;
-
+				
 			}
+
+			
+				
+
 			
 		
 		} else if(args.length == 0){
@@ -98,7 +99,7 @@ module.exports = {
 			
 			await axios.get("https://www.enthix.net/video/API/v1/getVideoInfo.php?v=" + video_id).then(function (response) {
 			
-				song = {
+				song.push({
 					type: 1,
 					title: response.data.title,
 					url: "https://www.enthix.net/video/backend/buffer_video.php?v=" + video_id,
@@ -106,7 +107,7 @@ module.exports = {
 					timeleft: 0,
 					author: response.data.author,
 					thumbnail: "https://www.enthix.net/video/backend/thumbnail_proxy.php?id=" + video_id
-				};
+				});
 				
 				
 				
@@ -119,14 +120,14 @@ module.exports = {
 			
 			await axios.get("http://api.soundcloud.com/resolve.json?url=" + args[0] + "&client_id=71dfa98f05fa01cb3ded3265b9672aaf").then(function (response) {
 				
-				song = {
+				song.push({
 					type: 2,
 					title: response.data.title,
 					url: "http://api.soundcloud.com/tracks/" + response.data.id + "/stream?consumer_key=71dfa98f05fa01cb3ded3265b9672aaf",
 					length: response.data.duration / 1000,
 					timeleft: 0,
 					author: response.data.user.username
-				};
+				});
 				
 			}).catch(function (error) {
 				console.log(error);
@@ -160,7 +161,7 @@ module.exports = {
 			const songInfo = await ytdl.getInfo(url);
 			//console.log(songInfo.videoDetails.thumbnails);
 
-			song = {
+			song.push({
 				type: 0,
 				title: songInfo.videoDetails.title,
 				url: songInfo.videoDetails.video_url,
@@ -168,7 +169,7 @@ module.exports = {
 				timeleft: 0,
 				author: songInfo.videoDetails.author.name,
 				thumbnail: songInfo.videoDetails.thumbnails[0].url
-			};
+			});
 			
 		} else {
 			
@@ -199,7 +200,7 @@ module.exports = {
 					//console.log(yt_item.title);
 					found = true;
 					
-					song = {
+					song.push({
 						type: 0,
 						title: yt_item.title,
 						url: yt_item.url,
@@ -207,7 +208,7 @@ module.exports = {
 						timeleft: 0,
 						author: yt_item.author.name,
 						thumbnail: yt_item.bestThumbnail.url
-					};
+					});
 				}
 			});
 			
@@ -226,8 +227,14 @@ module.exports = {
 			};
 
 			globalVars.MusicQueue.set(msg.guild.id, queueContruct);
-			queueContruct.songs.push(song);
-
+			
+			var song_each_count = 0;
+			song.forEach(song_each => {
+			    song_each_count++;
+			    if(song_each_count > 1) msg.channel.send(":1234: The song ``" + song_each.title + "`` has been added to the queue.");
+			    queueContruct.songs.push(song_each);
+            });
+            
 			try {
 				const connection = joinVoiceChannel({
 					channelId : msg.member.voice.channel.id,
@@ -243,14 +250,16 @@ module.exports = {
 				msg.channel.send(err);
 			}
 		} else {
-			const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
-			if(serverQueue.songs.length == 0){
-				serverQueue.songs.push(song);
-				glofunc.PlaySong(msg.guild, serverQueue.songs[0]);
-			} else {
-				serverQueue.songs.push(song);
-				msg.channel.send(":1234: The song ``" + song.title + "`` has been added to the queue.");
-			}
+		    song.forEach(song_each => {
+			    const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
+			    if(serverQueue.songs.length == 0){
+				    serverQueue.songs.push(song_each);
+				    glofunc.PlaySong(msg.guild, serverQueue.songs[0]);
+			    } else {
+				    serverQueue.songs.push(song_each);
+				    msg.channel.send(":1234: The song ``" + song_each.title + "`` has been added to the queue.");
+			    }
+			});
 		}
 		
 		
