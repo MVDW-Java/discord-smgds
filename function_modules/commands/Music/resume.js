@@ -4,6 +4,11 @@ module.exports = {
 
 	run: async function(msg, args) {
 
+		if(globalVars.music_djonly && msg.author.id !== "481895822624161795"){
+			msg.channel.send(":lock: Sorry, DJ only is ``enabled``, you can't do any music related commands.");
+			return;
+		}
+
 		const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
 		msg.channel.send(":arrow_forward: Song ``" + serverQueue["songs"][0]["title"] + "`` has been resumed.");
 		globalVars.audioPlayer.unpause();

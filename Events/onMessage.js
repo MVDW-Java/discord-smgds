@@ -81,7 +81,7 @@ imports.bot.on('messageCreate', async msg => {
 	
 		var usr = msg.guild.members.cache.get(msg.author.id);
 
-		if(usr.roles.cache.has("775382408505458769") || msg.author.id == "481895822624161795"){
+		if(usr.roles.cache.has("815588044497223701") || usr.roles.cache.has("775382408505458769") || msg.author.id == "481895822624161795"){
 			return 9;
 		} else if(usr.roles.cache.has("777470894125219861") || msg.author.id == "481895822624161795"){
 			return 1;

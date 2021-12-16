@@ -23,7 +23,10 @@ module.exports = {
 		}
 		
 		
-		
+		if(globalVars.music_djonly && msg.author.id !== "481895822624161795"){
+			msg.channel.send(":lock: Sorry, DJ only is ``enabled``, you can't do any music related commands.");
+			return;
+		}
 		
 		
 		var vailid_seek_values = ":1234567890";

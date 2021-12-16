@@ -9,6 +9,11 @@ module.exports = {
 			msg.channel.send('There is no queue.');
 			return;
 		}
+		
+		if(globalVars.music_djonly && msg.author.id !== "481895822624161795"){
+			msg.channel.send(":lock: Sorry, DJ only is ``enabled``, you can't do any music related commands.");
+			return;
+		}
 
         // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
         function shuffleArray(array) {

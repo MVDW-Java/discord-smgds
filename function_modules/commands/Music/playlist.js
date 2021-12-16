@@ -11,6 +11,14 @@ module.exports = {
 	run: async function(msg, args) {
 		msg.channel.send(":warning: Due the recode this function is not ready yet.");
 		return;
+		
+		if(vars.music_djonly && msg.author.id !== "481895822624161795"){
+			msg.channel.send(":lock: Sorry, DJ only is ``enabled``, you can't do any music related commands.");
+			return;
+		}
+		
+		
+		
 		if(args.length == 0){ 
 			
 			const playlist_help = new Discord.MessageEmbed()

@@ -167,14 +167,6 @@ module.exports = {
 			return;
 		}
 		
-		
-		/*var stream = await ytdl.stream(song.url);
-		
-		vars.audioResource = createAudioResource(stream.stream, {
-				inlineVolume: true
-		});*/
-		
-		
 		if(song.type == 0){
 			
 			var stream = await ytdl.stream(song.url);
@@ -212,9 +204,8 @@ module.exports = {
 
 		//  --------- Events
 		vars.audioPlayer.on(AudioPlayerStatus.Playing, () => {
+			module.exports.musicTimeLeft(song);
 			if(loop == 0 &&  start == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``\nNote: Because we are buffering the stream now for performance it may stutter at the start.");
-			song.timeleft = song.length;
-			
 		});
 		
 		vars.audioPlayer.on(AudioPlayerStatus.Idle, () => {
@@ -236,10 +227,7 @@ module.exports = {
 		
 		function next_song(){
 			if(globalVars.MusicLoop){
-				song.timeleft = song.length;
 				module.exports.PlaySong(guild, serverQueue.songs[0], 1);
-				
-				
 			} else {
 				serverQueue.songs.shift();
 				vars.vote_skip_song = [];

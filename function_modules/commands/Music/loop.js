@@ -11,6 +11,10 @@ module.exports = {
 			msg.channel.send('There is nothing playing right now.');
 			return;
 		}
+		if(globalVars.music_djonly && msg.author.id !== "481895822624161795"){
+			msg.channel.send(":lock: Sorry, DJ only is ``enabled``, you can't do any music related commands.");
+			return;
+		}
 
 		if(globalVars.MusicLoop){
 			globalVars.MusicLoop = false;

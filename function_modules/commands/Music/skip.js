@@ -8,6 +8,10 @@ module.exports = {
 		
 		const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
 		
+		if(globalVars.music_djonly && msg.author.id !== "481895822624161795"){
+			msg.channel.send(":lock: Sorry, DJ only is ``enabled``, you can't do any music related commands.");
+			return;
+		}
 		
 		if (!msg.member.voice.channel){
 			msg.channel.send(':no_entry_sign: You have to be in a voice channel to stop the music!');

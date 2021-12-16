@@ -27,7 +27,7 @@ module.exports = {
 			.setFooter("Requested by " + msg.author.tag + ".", msg.author.avatarURL())
 			.setTimestamp();
 			
-			msg.channel.send(embed);
+			msg.channel.send({ embeds: [embed] });
 	},
 	ModuleType: "command",
 	Permissions: 0,

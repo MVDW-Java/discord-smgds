@@ -21,6 +21,12 @@ module.exports = {
 
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
 
+		if(globalVars.music_djonly && msg.author.id !== "481895822624161795"){
+			msg.channel.send(":lock: Sorry, DJ only is ``enabled``, you can't do any music related commands.");
+			return;
+		}
+
+
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
 			msg.channel.send("I need the permissions to join and speak in your voice channel!");
 			return;
