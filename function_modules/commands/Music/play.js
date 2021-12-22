@@ -239,7 +239,7 @@ module.exports = {
 			    song_each_count++;
 			    if(song_each_count > 1) msg.channel.send(":1234: The song ``" + song_each.title + "`` has been added to the queue.");
 			    queueContruct.songs.push(song_each);
-            });
+          		});
             
 			try {
 				const connection = joinVoiceChannel({
@@ -262,8 +262,18 @@ module.exports = {
 				    serverQueue.songs.push(song_each);
 				    glofunc.PlaySong(msg.guild, serverQueue.songs[0]);
 			    } else {
-				    serverQueue.songs.push(song_each);
-				    msg.channel.send(":1234: The song ``" + song_each.title + "`` has been added to the queue.");
+				var estimated_time = 0;
+			    	
+			    	for (var i in serverQueue.songs){
+			    		console.log(serverQueue.songs[i].length);
+			    		estimated_time = estimated_time + serverQueue.songs[i].length;
+			    		console.log(estimated_time);
+			    	}
+			    	console.log(serverQueue.songs[0].length - serverQueue.songs[0].timeleft);
+			    	estimated_time = estimated_time - serverQueue.songs[0].timeleft;
+				serverQueue.songs.push(song_each);
+				
+				msg.channel.send(":1234: The song ``" + song_each.title + "`` has been added to the queue.\nEstimated time till playing: ``" + glofunc.toHHMMSS(estimated_time) + "``");
 			    }
 			});
 		}
