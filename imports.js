@@ -1,4 +1,5 @@
-const Discord = require('discord.js')
+const { Intents } = require('discord.js');
+const Discord = require('discord.js');
 
 //The bot login
 module.exports = {

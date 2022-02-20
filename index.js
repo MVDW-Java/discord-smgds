@@ -1,6 +1,6 @@
 const glofunc = require('./globalfunctions');		// Global functions
 const imports = require('./imports');				// Global imports
-
+const globalvars = require('./globalvars');	
 
 require('dotenv').config();
 
@@ -10,6 +10,13 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require("fs");
 const path = require("path");
+
+
+
+const DisTube = require('distube')
+const SoundCloudPlugin = require('@distube/soundcloud')
+const SpotifyPlugin = require('@distube/spotify')
+
 
 
 const TOKEN = process.env.TOKEN;
@@ -98,8 +105,25 @@ if(mods_loaded == mods_total) {
 } else {
 	console.log("\x1b[36m[" + mods_loaded + "/" + mods_total + "] \x1b[33mWARNING: Not all modules seem to be loaded! We will try to continue but some things may be broken. logging into servers...\x1b[0m\n");
 }
+globalvars.distube =  new DisTube.default(imports.bot, {
+	searchSongs: 1,
+	searchCooldown: 30,
+	leaveOnEmpty: false,
+	emptyCooldown: 0,
+	leaveOnFinish: false,
+	leaveOnStop: false
+})
 
-
+setInterval(() => {
+	globalvars.MusicQueue.forEach(function(guild){
+		//console.log(guild);
+	
+		//const serverQueue = globalVars.MusicQueue.get(guild.id);
+		if(guild.songs.length > 0){
+			if (guild.songs[0].timeleft < guild.songs[0].length) guild.songs[0].timeleft++;
+		}
+	});
+}, 1000);
 
 
 

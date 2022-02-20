@@ -2,7 +2,8 @@ const imports = require('./imports');
 const globalVars = require('./globalvars');
 const vars = require('./globalvars');
 var user_timeout = new Map();
-const ytdl = require('play-dl');
+const axios = require('axios');
+
 var mysql = require('mysql-await');
 const { createAudioPlayer, createAudioResource , StreamType, demuxProbe, joinVoiceChannel, NoSubscriberBehavior, AudioPlayerStatus, VoiceConnectionStatus, getVoiceConnection } = require('@discordjs/voice')
 require('dotenv').config();
@@ -155,7 +156,7 @@ module.exports = {
 
 		return arrayOfFiles;
 	},
-	PlaySong: async function play(guild, song, loop = 0, start = 0) {
+	PlaySong: async function play(guild, song, loop = 0, start = 0, msg = null) {
 		
 		const serverQueue = globalVars.MusicQueue.get(guild.id);
 		
@@ -167,22 +168,45 @@ module.exports = {
 			return;
 		}
 		
+
+		//globalVars.distube.playVoiceChannel(serverQueue.voiceChannel, song.url);
+/*
 		if(song.type == 0){
+			serverQueue.textChannel.send("Connecting to `https://enthix.net/yt2source.php`...");
+			await axios.get("https://enthix.net/yt2source.php?key=UIAHDFJSDFHSJKDSHFKHKJFEWIUYEUIWYEWUYISJBBJBNMCXIYUOWEUUDSJHKKJSLALAOPPOFJBJHEHEHHHHEEXNBNBNBCNXBNBXXXX&yt=" + song.url).then(function (response) {
+				if(response.data == "404"){
+					serverQueue.textChannel.send(":underage: **Video age-restricted.**\nWe can't play this video because its age restricted.\nYou need to connect your YouTube account to play age-restricted content.\nhttps://enthix.net/connect2music");
+				} else {
+					serverQueue.textChannel.send("decoded source returned `" + response.data + "`");
+					vars.audioResource = createAudioResource(response.data, {
+						inlineVolume: true
+					});
+				}
 			
-			var stream = await ytdl.stream(song.url);
+			}).catch(function (error) {
+				serverQueue.textChannel.send("Error while decoding source ```" + error + "```");
+				console.log(error);
+				return;
+			})
+
+			//const stream = await ytdl(song.url, { highWaterMark: 1 << 25 });
 			
-			vars.audioResource = createAudioResource(stream.stream, {
-				inlineVolume: true
-			});
+			
+			
+				
+			
 			
 		} else if(song.type == 1 || song.type == 2  || song.type == 3){
-			
+			*/
 			vars.audioResource = createAudioResource(song.url, {
 				inlineVolume: true
 			});
 
-		}
+		//}
 		
+
+
+
 		
 		vars.audioPlayer = createAudioPlayer({
 			behaviors: {
@@ -190,13 +214,13 @@ module.exports = {
 			}
 		});
 		
-		vars.audioResource.volume.setVolume(serverQueue["volume"] / 100);
+		
+		vars.audioResource.volume.setVolume(serverQueue.volume / 100);
 		
 		vars.audioPlayer.play(vars.audioResource, { seek: start });
 		serverQueue.connection.subscribe(vars.audioPlayer);
 
 
-		
 
 
 
@@ -204,8 +228,9 @@ module.exports = {
 
 		//  --------- Events
 		vars.audioPlayer.on(AudioPlayerStatus.Playing, () => {
-			module.exports.musicTimeLeft(song);
-			if(loop == 0 &&  start == 0) serverQueue.textChannel.send(":arrow_forward: Start playing ``" + song.title + "``\nNote: Because we are buffering the stream now for performance it may stutter at the start.");
+			//module.exports.musicTimeLeft(song);
+			if(loop == 0 &&  start == 0 && msg == null) serverQueue.textChannel.send(":arrow_forward: Start playing `" + song.title + "`");
+			if(loop == 0 &&  start == 0 && msg !== null) msg.edit(":arrow_forward: Start playing `" + song.title + "`");
 		});
 		
 		vars.audioPlayer.on(AudioPlayerStatus.Idle, () => {
@@ -223,10 +248,9 @@ module.exports = {
 		
 		
 		
-		
-		
 		function next_song(){
 			if(globalVars.MusicLoop){
+				song.timeleft = 0;
 				module.exports.PlaySong(guild, serverQueue.songs[0], 1);
 			} else {
 				serverQueue.songs.shift();
@@ -236,6 +260,10 @@ module.exports = {
 			}
 			
 		}
+		
+		
+		
+		
 		
 		/*
 		console.log(song.url);
@@ -303,10 +331,7 @@ module.exports = {
 		socketPath: "/var/run/mysqld/mysqld.sock"
 	}),
 	musicTimeLeft: function(song){
-		setInterval(() => {
-			song.timeleft++;
-			if (song.timeleft == song.length) clearInterval(module.exports.musicTimeLeft);
-		}, 1000);
+		
 
 	}
 

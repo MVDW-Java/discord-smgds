@@ -25,14 +25,7 @@ module.exports = {
 		
 		msg.channel.send(":track_next: Skipping song...");
 		globalVars.audioPlayer.stop();
-		
-		if(args[0] == "fix-broken"){
-		    msg.channel.send("[FIXME] Fixing broken player...");
-		    const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
-		    serverQueue.songs.shift();
-		    glofunc.PlaySong(msg.guild, serverQueue.songs[0], 0);
-		
-		}
+
 
 	},
 	ModuleType: "command",

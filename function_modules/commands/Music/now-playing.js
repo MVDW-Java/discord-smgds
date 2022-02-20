@@ -131,23 +131,23 @@ module.exports = {
 				listening_platform_icon = "https://cdn.discordapp.com/attachments/834518897549508649/834713284627529748/youtube_play1600.png";
 				break;
 			case 1:
-				listening_platform_name = "Project Video";
-				listening_platform_icon = "https://cdn.discordapp.com/attachments/834518897549508649/834716460307709972/project_video_logo_2.png";
+				listening_platform_name = "Creo";
+				listening_platform_icon = "https://www.watchcreo.com/assets/images/favicon_new.png";
 				break;
 			case 2:
 				listening_platform_name = "SoundCloud";
-				listening_platform_icon = "";
+				listening_platform_icon = "https://cdn.discordapp.com/attachments/885543263111639061/942008394896781392/iu.png";
 				break;
 			case 3:
 				listening_platform_name = "uploaded file";
-				listening_platform_icon = "";
+				listening_platform_icon = "https://cdn.discordapp.com/attachments/885543263111639061/942014209816936448/folder.png";
 				break;
 		}
 		
 		
 		
 		const now_playing = new Discord.MessageEmbed()
-			.setColor('#2ecc71')
+			.setColor('#19d3c8')
 			.setTitle(':arrow_forward: Now Playing:')
 			.setDescription("__**" + serverQueue.songs[0].title + "**__\n" +
 			"*By " + serverQueue.songs[0].author + "*\n\n" + 
@@ -155,9 +155,40 @@ module.exports = {
 			glofunc.toHHMMSS(serverQueue.songs[0].timeleft) + " / " + glofunc.toHHMMSS(serverQueue.songs[0].length) + "\n\n")
 			.setThumbnail(serverQueue.songs[0].thumbnail) //youtube bugged
 			.setFooter("Listen on " + listening_platform_name, listening_platform_icon);
-
 			
-		msg.channel.send({ embeds: [now_playing] });
+			
+		const button_row = new Discord.MessageActionRow();
+		const button_row2 = new Discord.MessageActionRow();
+		button_row.addComponents(
+			new Discord.MessageButton()
+				.setCustomId("music_pause")
+				.setLabel('')
+				.setStyle('PRIMARY')
+				.setEmoji('⏸️')
+		);
+		button_row.addComponents(
+			new Discord.MessageButton()
+				.setCustomId("music_skip")
+				.setLabel('Skip')
+				.setStyle('PRIMARY')
+				.setEmoji('⏩')
+		);
+		button_row.addComponents(
+			new Discord.MessageButton()
+				.setCustomId("music_loop")
+				.setLabel('Loop')
+				.setStyle('PRIMARY')
+				.setEmoji('🔂')
+		);
+		button_row2.addComponents(
+			new Discord.MessageButton()
+				.setLabel('Open Connect2Music')
+				.setStyle('LINK')
+				.setURL("https://www.enthix.net/connect2music")
+				.setEmoji('🎵')
+				.setDisabled(true)
+		);
+		msg.channel.send({ embeds: [now_playing], components: [button_row, button_row2] });
 		
 	},
 	ModuleType: "command",

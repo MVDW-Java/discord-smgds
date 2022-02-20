@@ -15,7 +15,7 @@ module.exports = {
 		var enable_next_page = false;
 		var enable_pre_page = false;
 		var page = 0;
-		var page_size = 2;
+		var page_size = 10;
 		var page_start = 0;
 		var page_end = page_size;
 		
@@ -92,7 +92,7 @@ module.exports = {
 		
 		
 		const queue = new Discord.MessageEmbed()
-			.setColor('#2ecc71')
+			.setColor('#19d3c8')
 			.setTitle(":1234: Queue > page " + page)
 			.setDescription(queue_description);
 

@@ -22,7 +22,7 @@ module.exports = {
 		} else {
 			globalVars.MusicLoop = true;
 			const serverQueue = globalVars.MusicQueue.get(msg.guild.id);
-			msg.channel.send(":repeat_one: Song ``" + globalVars.MusicQueue.get(msg.guild.id)["songs"][0]["title"] + "`` looped.");
+			msg.channel.send(":repeat_one: Song ``" + serverQueue.songs[0].title + "`` looped.");
 		}
 	},
 	ModuleType: "command",

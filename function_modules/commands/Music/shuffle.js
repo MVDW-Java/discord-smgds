@@ -39,7 +39,7 @@ module.exports = {
 			queue_counter++;
 		});
 		const queue = new Discord.MessageEmbed()
-			.setColor('#2ecc71')
+			.setColor('#19d3c8')
 			.setTitle(':1234: Queue:')
 			.setDescription(queue_description);
 
